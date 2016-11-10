@@ -11,6 +11,7 @@
 ' Tip-1: if you have selected a file, AND a directory
 '   is in the edit field, the file-operations affect
 '   the "directory/file" relative pathname construct.
+'   With ".." in the edit field, the upDir is affected
 '
 ' Tip-2: I made /storage/sdcard0/external_sdcard/sb12/
 '   directory as my "home directory" on Android.
@@ -66,7 +67,7 @@ sub mk_ui
   cls
   f.inputs << mk_men(deleteId,"[Del",0)
   f.inputs << mk_men(newId,"New",_mg)
-  f.inputs << mk_men(saveasId,"SvAs",_mg)
+  f.inputs << mk_men(saveasId,"Copy",_mg)
   f.inputs << mk_men(renameId,"Ren",_mg)
   f.inputs << mk_men(viewId,"View]",_mg)
   f.inputs << mk_men(rmdirId,"[RmDir",_mg*2)
@@ -231,10 +232,9 @@ sub newFile(x)
     exit sub
   fi
   if x=1
-    w.ask("Save:  ["+s+"]  as:  ["+n+"] ?")
+    w.ask("Copy:  ["+s+"]  to:  ["+n+"] ?")
     if w.answer=0
-      tload s,t
-      tsave n,t
+      copy s,n
       rl_lst(i)
     fi
   elif x=2
